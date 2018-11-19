@@ -1,7 +1,7 @@
 function GAInitialize() {
   countDistances();
   for(var i=0; i<POPULATION_SIZE; i++) {
-    population.push(randomIndivial(points.length));
+    population.push(randomIndivial(points.length)); // popülasyona noktaların karıştırılmış halleri ekleniyor. size 10 olarak belirledik.
   }
   setBestValue();
 }
@@ -9,17 +9,10 @@ function GANextGeneration() {
   currentGeneration++;
   selection();
   crossover();
-  mutation();
+  //mutation();
   setBestValue();
 }
-/*
-function tribulate() {
- 
-  for(var i=population.length>>1; i<POPULATION_SIZE; i++) {
-    population[i] = randomIndivial(points.length);
-  }	
-}
-*/
+
 function selection() {
   var parents = new Array();
   var initnum = 4;
@@ -148,7 +141,7 @@ function pushMutate(seq) {
 }
 function setBestValue() {
   for(var i=0; i<population.length; i++) {
-    values[i] = evaluate(population[i]);
+    values[i] = evaluate(population[i]); // herbir popülasyonun toplam mesafesini hesaplıyoruz
   }
   currentBest = getCurrentBest();
   if(bestValue === undefined || bestValue > currentBest.bestValue) {
@@ -159,7 +152,7 @@ function setBestValue() {
     UNCHANGED_GENS += 1;
   }
 }
-function getCurrentBest() {
+function getCurrentBest() { // values dizisine herbir popülasyonun toplam mesafesini eklemiştik. Herbir values karşılaştırılarak en kısa mesafe tesbit edilir
   var bestP = 0,
   currentBestValue = values[0];
 
@@ -175,6 +168,7 @@ function getCurrentBest() {
   }
 }
 /*
+Rulet Seçilimi:Topluluktaki tüm bireylerin uygunluk değerleri toplanır ve her bireyin seçilme olasılığı, uygunluk değerinin bu toplam değere oranı kadardır.
 */
 function setRoulette() {
   //calculate all the fitness
@@ -193,6 +187,9 @@ function setRoulette() {
 	roulette[i] += roulette[i-1]; 
   }
 }
+/*
+Random üretilen sayıdan büyük olan ilk rulet değeri döndürüyoruz.
+*/
 function wheelOut(rand) {
   var i;
   for(i=0; i<roulette.length; i++) {
@@ -201,14 +198,14 @@ function wheelOut(rand) {
     }
   }
 }
-function randomIndivial(n) {
+function randomIndivial(n) { // noktaların diziye eklenmesi ve karıştırılması
   var a = [];
   for(var i=0; i<n; i++) {
     a.push(i);
   }
   return a.shuffle();
 }
-function evaluate(indivial) {
+function evaluate(indivial) { // ölçüyoruz
   var sum = dis[indivial[0]][indivial[indivial.length - 1]];
   for(var i=1; i<indivial.length; i++) {
     sum += dis[indivial[i]][indivial[i-1]];
@@ -221,7 +218,7 @@ function countDistances() {
   for(var i=0; i<length; i++) {
     dis[i] = new Array(length);
     for(var j=0; j<length; j++) {
-      dis[i][j] = ~~distance(points[i], points[j]); 
+      dis[i][j] = ~~distance(points[i], points[j]); // herbir noktanın diğer noktalara olan mesafelerini hesaplıyoruz
     }
   }
 }
