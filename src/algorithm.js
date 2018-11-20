@@ -143,8 +143,8 @@ function setBestValue() {
   for(var i=0; i<population.length; i++) {
     values[i] = evaluate(population[i]); // herbir popülasyonun toplam mesafesini hesaplıyoruz
   }
-  currentBest = getCurrentBest();
-  if(bestValue === undefined || bestValue > currentBest.bestValue) {
+  currentBest = getCurrentBest(); // en uygun mesafeyi alıyoruz
+  if(bestValue === undefined || bestValue > currentBest.bestValue) { // 
     best = population[currentBest.bestPosition].clone();
     bestValue = currentBest.bestValue;
     UNCHANGED_GENS = 0;
