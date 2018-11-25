@@ -9,7 +9,7 @@ function GANextGeneration() {
   currentGeneration++;
   selection();
   crossover();
-  //mutation();
+  mutation();
   setBestValue();
 }
 
